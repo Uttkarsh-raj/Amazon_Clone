@@ -1,5 +1,6 @@
 const express=require('express');
 const User = require('../models/user');
+const bcryptjs=require('bcryptjs');//used for hashing the password to make the app secure
 
 const authRouter=express.Router();
 authRouter.post('/api/signup',async (req,res)=>{
@@ -10,10 +11,12 @@ authRouter.post('/api/signup',async (req,res)=>{
         return res.status(400).json({msg:'User with same email already exists!'});
     }
 
+    const hashedPassword= await bcryptjs.hash(password,8);//password , hasshvalue->a future so we need to await
+
     let user=new User({
         name,
         email,
-        password,
+        password: hashedPassword,
     })
     user=await user.save();
     res.json(user);

@@ -14,6 +14,7 @@ const PORT=3000;
 const DB='mongodb+srv://Uttkarsh:AmazonClone@cluster0.desscqi.mongodb.net/?retryWrites=true&w=majority';
 
 //~middleware: CLIENT->SERVER->CLIENT but now CLIENT->middleware->SERVER->CLIENT;use=>data formatting~
+app.use(express.json());
 app.use(authRouter);
 
 //~CONNECTIONS~
@@ -37,7 +38,7 @@ mongoose
 //     res.json({'name':'ash'});
 // })
 
-app.listen(PORT,()=>{
+app.listen(PORT, "0.0.0.0" ,()=>{
     console.log(`connected to port ${PORT}`);
 });
 
