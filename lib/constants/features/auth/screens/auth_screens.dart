@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_textfield.dart';
+import 'package:amazon_clone/constants/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final AuthService authService = AuthService();
 
   @override
   void dispose() {
@@ -31,6 +33,23 @@ class _AuthScreenState extends State<AuthScreen> {
     _emailController.dispose();
     _passController.dispose();
     super.dispose();
+  }
+
+  void signUpUser() {
+    authService.signUpUser(
+      context: context,
+      name: _nameController.text,
+      password: _passController.text,
+      email: _emailController.text,
+    );
+  }
+
+  void signInUser() {
+    authService.signInUser(
+      context: context,
+      password: _passController.text,
+      email: _emailController.text,
+    );
   }
 
   @override
@@ -99,7 +118,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             const SizedBox(height: 10),
                             CustomButton(
                               title: 'SignUp',
-                              onTap: () {},
+                              onTap: () {
+                                if (_signUp.currentState!.validate()) {
+                                  signUpUser();
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -149,7 +172,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             const SizedBox(height: 10),
                             CustomButton(
                               title: 'SignIn',
-                              onTap: () {},
+                              onTap: () {
+                                if (_signIn.currentState!.validate()) {
+                                  signInUser();
+                                }
+                              },
                             ),
                           ],
                         ),
