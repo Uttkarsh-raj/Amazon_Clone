@@ -1,5 +1,6 @@
 import 'package:amazon_clone/constants/features/auth/screens/auth_screens.dart';
 import 'package:amazon_clone/constants/features/auth/services/auth_service.dart';
+import 'package:amazon_clone/constants/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/provider/user_provider.dart';
 import 'package:amazon_clone/router.dart';
@@ -25,6 +26,12 @@ class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
   // This widget is the root of your application.
   @override
+  void initState() {
+    authService.getUserData(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -42,7 +49,9 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: const AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.length != 0
+          ? const HomeScreen()
+          : const AuthScreen(),
     );
   }
 }
